@@ -59,10 +59,11 @@ export class MediaRepository extends Repository {
     return body;
   }
   public async like(options: LikeRequestOptions) {
-    return this.likeAction({
-      action: 'like',
-      ...options,
-    });
+    return 'Works Chief';
+    // return this.likeAction({
+    //   action: 'like',
+    //   ...options,
+    // });
   }
   public async unlike(options: UnlikeRequestOptions) {
     return this.likeAction({
