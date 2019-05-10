@@ -11,6 +11,10 @@ import { MediaConfigureOptions } from '../types/media.configure.options';
 import Chance = require('chance');
 import { MediaRepositoryCommentResponseRootObject } from '../responses/media.repository.configure.response';
 
+interface Reel {
+  [item: string]: [string];
+}
+
 export class MediaRepository extends Repository {
   public async delete({
     mediaId,
@@ -31,6 +35,31 @@ export class MediaRepository extends Repository {
         _csrftoken: this.client.state.cookieCsrfToken,
         _uid: this.client.state.cookieUserId,
         _uuid: this.client.state.uuid,
+      }),
+    });
+    return body;
+  }
+
+  async seen(reels: Reel, module: string = 'feed_timeline'): Promise<{ status: string }> {
+    const { body } = await this.client.request.send<{ status: string }>({
+      url: `/api/v2/media/seen/`,
+      method: 'POST',
+      qs: {
+        reel: 1,
+        live_vod: 0,
+      },
+      form: this.client.request.sign({
+        reels,
+        container_module: module,
+        reel_media_skipped: [],
+        live_vods: [],
+        live_vods_skipped: [],
+        nuxes: [],
+        nuxes_skipped: [],
+        _uuid: this.client.state.uuid,
+        _uid: this.client.state.cookieUserId,
+        _csrftoken: this.client.state.cookieCsrfToken,
+        device_id: this.client.state.deviceId,
       }),
     });
     return body;

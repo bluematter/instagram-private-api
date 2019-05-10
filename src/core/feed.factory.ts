@@ -6,6 +6,7 @@ import {
   DirectThreadFeed,
   LocationFeed,
   MediaCommentsFeed,
+  ReelsMediaFeed,
   TagFeed,
   TimelineFeed,
   UserFeed,
@@ -59,7 +60,9 @@ export class FeedFactory {
     feed.id = id;
     return feed;
   }
-
+  public reels(): ReelsMediaFeed {
+    return new ReelsMediaFeed(this.client);
+  }
   public timeline(reason?: TimelineFeedReason): TimelineFeed {
     const feed = new TimelineFeed(this.client);
     if (reason) {
